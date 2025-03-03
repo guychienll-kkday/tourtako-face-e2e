@@ -1,13 +1,13 @@
 import { BrowserContext, test } from "@playwright/test";
 import path from "path";
 import { chromium } from "playwright";
-import { createPackage, deletePackage } from "./utils";
+import * as packageCalendar from "./packageCalendar";
 import * as pacakgeIntro from "./packageIntro";
 import * as packageItems from "./packageItems";
-import * as packageCalendar from "./packageCalendar";
-import * as packageSession from "./packageSession";
 import * as packagePrice from "./packagePrice";
 import * as packageQuota from "./packageQuota";
+import * as packageSession from "./packageSession";
+import { createPackage, deletePackage } from "./utils";
 
 async function beforeAll(context: BrowserContext) {
   await context.addInitScript({
@@ -27,6 +27,7 @@ async function beforeAll(context: BrowserContext) {
 
 const BASE_URL = "http://localhost:8081";
 const PRODUCT_ID = "8718574b-d621-4f9f-b12b-4cf59a814a96";
+// const PACKAGE_ID = "135002b0-f26d-11ef-9d46-b7b35c09a44a";
 
 test("create a package - happy path", async () => {
   test.setTimeout(120_000);
@@ -37,6 +38,11 @@ test("create a package - happy path", async () => {
   await beforeAll(context);
 
   await page.goto(BASE_URL);
+
+  // await page.goto(
+  //   `${BASE_URL}/product/add?packageId=${PACKAGE_ID}&packageStep=intro&productId=${PRODUCT_ID}&step=package`
+  // );
+
   await page.goto(
     `${BASE_URL}/product/add?productId=${PRODUCT_ID}&step=package`
   );

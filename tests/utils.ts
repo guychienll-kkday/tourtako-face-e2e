@@ -34,9 +34,11 @@ async function createPackage(page: Page) {
 }
 
 async function deletePackage(page: Page) {
-  await page.getByTestId("button:package-detail-header:more-actions").click();
+  await page.getByRole("button", { name: "more-actions" }).click();
 
-  await page.getByTestId("button:package-detail-header:delete").click();
+  const actionList = page.getByRole("list");
+
+  await actionList.getByRole("button", { name: "刪除方案" }).click();
 
   const deleteDialog = page.getByRole("dialog");
 
@@ -88,9 +90,11 @@ async function selectDates(params: SelectDatesProps) {
   for (const date of dates) {
     await selectableCalendar
       .getByRole("option", {
-        name: date,
+        name: date.padStart(2, "0"),
         disabled: false,
+        exact: true,
       })
+      .first()
       .click();
   }
 

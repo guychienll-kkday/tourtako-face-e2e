@@ -12,11 +12,7 @@ async function fill(params: FillPackageCalendarProps) {
 
   const rangeField = packageContentSection.getByTestId("field.range");
 
-  await rangeField
-    .getByRole("combobox", {
-      name: "date-picker",
-    })
-    .click();
+  await rangeField.getByRole("combobox").click();
 
   const [startDate, endDate] = [
     `${new Date().getDate()}`,
@@ -131,11 +127,7 @@ async function fill(params: FillPackageCalendarProps) {
   const excludeDatesField =
     packageContentSection.getByTestId("field.excludeDates");
 
-  await excludeDatesField
-    .getByRole("combobox", {
-      name: "date-picker",
-    })
-    .click();
+  await excludeDatesField.getByRole("combobox").click();
 
   await selectDates({
     dates: ["27"],

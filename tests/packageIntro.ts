@@ -1,5 +1,5 @@
+import path from "path";
 import { Page } from "playwright";
-
 interface FillPackageIntroProps {
   page: Page;
 }
@@ -21,24 +21,34 @@ async function fill(params: FillPackageIntroProps) {
   await packageDescInput.clear();
   await packageDescInput.fill("測試方案描述");
 
-  const selectMediaBtn = packageContentSection
+  // const selectMediaBtn = packageContentSection
+  //   .getByTestId("field.cover")
+  //   .getByRole("button", {
+  //     name: "選擇媒體庫",
+  //   });
+
+  // await selectMediaBtn.click();
+
+  // const mediaLibraryDialog = page.getByRole("dialog");
+
+  // await mediaLibraryDialog
+  //   .getByRole("button", {
+  //     name: /.*\.(jpg|png|jpeg)/,
+  //   })
+  //   .first()
+  //   .click();
+
+  // await mediaLibraryDialog.getByRole("button", { name: "確定" }).click();
+
+  const fileChooserPromise = page.waitForEvent("filechooser");
+
+  await packageContentSection
     .getByTestId("field.cover")
-    .getByRole("button", {
-      name: "選擇媒體庫",
-    });
-
-  await selectMediaBtn.click();
-
-  const mediaLibraryDialog = page.getByRole("dialog");
-
-  await mediaLibraryDialog
-    .getByRole("button", {
-      name: /.*\.(jpg|png|jpeg)/,
-    })
-    .first()
+    .getByRole("button", { name: "上傳圖片" })
     .click();
 
-  await mediaLibraryDialog.getByRole("button", { name: "確定" }).click();
+  const fileChooser = await fileChooserPromise;
+  await fileChooser.setFiles(path.join(__dirname, "assets", "test.png"));
 
   await page.getByRole("button", { name: "儲存" }).click();
 
